@@ -1,0 +1,7 @@
+auth.json
+.env
+.env.*
+node_modules/
+__pycache__/
+*.pyc
+.venv/
