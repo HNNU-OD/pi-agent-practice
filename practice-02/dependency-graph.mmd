@@ -1,0 +1,39 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, Segoe UI, sans-serif", "fontSize": "20px", "lineColor": "#526778", "background": "#f8fafc"}, "flowchart": {"curve": "monotoneX", "nodeSpacing": 35, "rankSpacing": 66, "padding": 16}}}%%
+flowchart LR
+    codingAgent["coding-agent"]
+    env["env"]
+    agent["agent"]
+    durable["durable"]
+    chord["chord"]
+    ai["ai"]
+    mcp["mcp"]
+    tui["tui"]
+    codemode["codemode"]
+    schema["schema"]
+    telemetry["telemetry"]
+
+    codingAgent --> agent
+    codingAgent --> ai
+    codingAgent --> codemode
+    codingAgent --> mcp
+    codingAgent --> tui
+    env --> durable
+    env --> chord
+    agent --> ai
+    agent --> schema
+    durable --> chord
+    durable --> ai
+    durable --> codemode
+    durable --> schema
+    durable --> telemetry
+    chord --> schema
+    chord --> telemetry
+    ai --> schema
+    ai --> telemetry
+
+    classDef entry fill:#dbeafe,stroke:#2d5f9a,color:#112e4a,stroke-width:2px;
+    classDef service fill:#e1f2f0,stroke:#3a7b77,color:#153a39,stroke-width:2px;
+    classDef library fill:#f1f5f9,stroke:#637587,color:#243849,stroke-width:2px;
+    class codingAgent,env entry;
+    class agent,durable,chord,ai service;
+    class mcp,tui,codemode,schema,telemetry library;
