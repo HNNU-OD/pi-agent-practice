@@ -36,6 +36,14 @@ git status
 
 图 1 为本机实际 Git 命令输出的渲染截图。
 
+![图 1a，小组组织的 GitHub 仓库 main 页面](screenshots/04-github-repository.png)
+
+图 1a 显示小组组织名、仓库名、Fork 来源、`main` 分支和 GitHub 上的提交短号。 [小组 GitHub 仓库 main 页面](https://github.com/tri-queens-code-lab/pi-hunnu-2026/tree/main)
+
+![图 1b，本地源码根目录、packages 目录及其 Git 信息](screenshots/05-local-source-tree.png)
+
+图 1b 来自本机实际的 Git 和 PowerShell 输出。同一画面记录了当前路径、`origin`、分支、完整 HEAD，以及仓库根目录和 `packages/` 的目录内容。
+
 ## 二、11 个模块的功能、构建与直接内部依赖
 
 用 11 个子包的 `package.json#name` 将 npm 包名映射到目录名，再从 `dependencies` 提取直接内部依赖，并用 `src/` 中的包导入交叉核对。`@earendil-works/chord` 对应 `chord`，`@earendil-works/pi-agent-core` 对应 `agent`。下表的 `tsc` 均指 `tsc -p tsconfig.build.json`。共享配置为 TypeScript 产物启用声明、声明映射和源码映射。[共享 TypeScript 配置](https://github.com/tri-queens-code-lab/pi-hunnu-2026/blob/c3cc91632d0a1950fb122605b190233f2aa0006e/tsconfig.base.json#L1-L24)
