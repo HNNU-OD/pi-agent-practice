@@ -1,0 +1,27 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Microsoft YaHei UI, Segoe UI, sans-serif","fontSize":"17px","lineColor":"#506c81","primaryTextColor":"#142d43"},"flowchart":{"curve":"linear","htmlLabels":true,"nodeSpacing":36,"rankSpacing":32,"padding":13}}}%%
+flowchart TB
+    A["A 已完成 · Pi 读到 handoff.txt 并回答完整启动命令"]
+
+    L0["退出后以 -c 启动本地 CLI<br/>main.ts → SessionManager.continueRecent()"]
+    L1["打开 A 的同一份 JSONL<br/>_setSessionFile() → loadEntriesFromFile()"]
+    L2["buildSessionContext() 恢复活动分支<br/>SDK 将 existingSession.messages 交给 Agent"]
+    L3["输入 B 的相同问题<br/>Agent.prompt() 追加这次 user 消息"]
+    L4["送给模型的聊天内容<br/>A 的提问、read 调用、两行工具结果、A 的回答<br/>以及 B 的新提问"]
+    L5["恢复会话 · 返回交接单完整命令<br/>模型调用 1 轮，工具执行 0 次"]
+
+    R0["输入 /new<br/>handleClearCommand() → runtimeHost.newSession()"]
+    R1["SessionManager.create() 建立新会话<br/>生成新会话 ID，活动分支为空"]
+    R2["createRuntime() 使用新会话<br/>buildSessionContext() 无旧聊天消息"]
+    R3["输入 B 的相同问题<br/>Agent.prompt() 追加首条 user 消息"]
+    R4["送给模型的聊天内容<br/>只有 B 的提问<br/>两侧均可包含系统提示与工具定义"]
+    R5["新会话 · 明确缺少启动命令<br/>模型调用 1 轮，工具执行 0 次"]
+
+    A --> L0 --> L1 --> L2 --> L3 --> L4 --> L5
+    A --> R0 --> R1 --> R2 --> R3 --> R4 --> R5
+
+    classDef start fill:#183a55,stroke:#183a55,color:#fff;
+    classDef resumed fill:#e8f3fd,stroke:#6489aa,color:#15344f;
+    classDef fresh fill:#ecf6ef,stroke:#679583,color:#1a453b;
+    class A start;
+    class L0,L1,L2,L3,L4,L5 resumed;
+    class R0,R1,R2,R3,R4,R5 fresh;

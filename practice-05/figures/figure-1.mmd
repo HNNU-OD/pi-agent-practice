@@ -1,0 +1,25 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Microsoft YaHei UI, Segoe UI, sans-serif","fontSize":"16px","primaryColor":"#e7f1fb","primaryTextColor":"#142d43","actorBkg":"#e7f1fb","actorBorder":"#6989a4","actorTextColor":"#142d43","signalColor":"#344f66","signalTextColor":"#142d43","noteBkgColor":"#ecf6ef","noteBorderColor":"#85a998","noteTextColor":"#1c423b"},"sequence":{"width":150,"height":42,"actorMargin":104,"diagramMarginY":12,"messageMargin":24,"noteMargin":11,"mirrorActors":false,"wrap":false}}}%%
+sequenceDiagram
+    participant U as 用户
+    participant C as 交互与会话
+    participant A as Agent 执行
+    participant M as 模型请求
+    participant R as read 工具
+    U->>C: 输入读取 handoff.txt 的问题
+    Note over C: editor.onSubmit → getUserInput()<br/>→ AgentSession.prompt()
+    C->>A: _startRun() → Agent.prompt(messages)
+    Note over A: runPromptMessages() → runAgentLoop()<br/>→ runLoop()
+    A->>M: 第 1 轮 · streamAssistantResponse()<br/>→ streamFunction()
+    Note over M: sdk.ts → modelRuntime.streamSimple()<br/>openai-completions.ts 适配 DeepSeek
+    M->>M: 适配器 → DeepSeek<br/>chat.completions.create(params)<br/>携带问题和 read 定义
+    M-->>A: DeepSeek → 适配器解析 delta.tool_calls<br/>→ assistant toolCall · read(handoff.txt)
+    A->>R: executeToolCalls()<br/>→ validateToolArguments() → tool.execute()
+    Note over R: resolveReadPathAsync() → ops.access()<br/>selectLinesFromStream(ops.createReadStream(...))<br/>readLocalFileChunks() → fsOpen()<br/>→ handle.createReadStream()
+    R-->>A: content 返回两行文本
+    Note over A: createToolResultMessage()<br/>→ currentContext.messages.push(result)
+    A->>M: 第 2 轮 · streamFunction()<br/>携带已有提问、工具调用和结果
+    M->>M: convertMessages() → role=tool<br/>chat.completions.create(params) → DeepSeek
+    M-->>A: DeepSeek 流式文本 → 适配器<br/>→ assistant 响应事件
+    A-->>C: Agent.processEvents()<br/>→ AgentSession._handleAgentEvent()
+    Note over C: message_end → appendMessage() 写入 JSONL<br/>session.subscribe() → handleEvent()<br/>message_update / message_end → updateContent()
+    C-->>U: ui.requestRender() · 显示两行内容
