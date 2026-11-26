@@ -6,7 +6,7 @@
 | 学号 | 202430224010 |
 | GitHub | `HNNU-OD` |
 | 日期 | 2026 年 11 月 26 日 |
-| 小组源码 | [`tri-queens-code-lab/pi-hunnu-2026` 的 `main`](https://github.com/tri-queens-code-lab/pi-hunnu-2026/tree/main) |
+| 小组源码 | [`practice-4-hujiahao` 的 P4 日志提交 `b787b9d`](https://github.com/tri-queens-code-lab/pi-hunnu-2026/commit/b787b9d72a633b0f47e4801d2fc2cde455fa48c8) |
 | 基础提交 | [`c3cc91632d0a1950fb122605b190233f2aa0006e`](https://github.com/tri-queens-code-lab/pi-hunnu-2026/commit/c3cc91632d0a1950fb122605b190233f2aa0006e) |
 | 本地仓库 | `E:\实践1\pi-hunnu-2026` |
 | Pi 与模型 | Pi `1.5.2` · `deepseek/deepseek-flash` · 思考级别 `off` |
